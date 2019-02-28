@@ -35,6 +35,27 @@ Descriptor::~Descriptor()
 }
 
 //----------------------------------------------------------------------------------
+//! @func:			Accept()
+//! @brief:			サーバ側へ接続要求.
+//----------------------------------------------------------------------------------
+int Descriptor::Accept()
+{
+		struct sockaddr_in acceptAddr = { 0, };
+		socklen_t acceptAddrSize = sizeof( acceptAddr );
+
+		m_server = accept( m_socket, ( struct sockaddr* )&acceptAddr, &acceptAddrSize );
+		if ( m_server == SOCKET_ERROR )
+		{
+				ErrorMessage( "failed accept to server." );
+
+				return SOCKET_ERROR;
+		}
+
+		printf( "connected" );
+		return S_OK;
+}
+
+//----------------------------------------------------------------------------------
 //! @func:			Bind( strAddr )
 //! @brief:			descriptor と ポート番号を結びつける.
 //! @param:		(strAddr) IPアドレスを指定.
@@ -116,6 +137,13 @@ void* Descriptor::Received()
 
 int Descriptor::Send( void* pData, size_t uDataSize )
 {
+		int err = send( m_server, ( char* ) pData, uDataSize, 0 );
+		if ( err == SOCKET_ERROR )
+		{
+				ErrorMessage( "failed send data to client." );
+
+				return SOCKET_ERROR;
+		}
 
 		return S_OK;
 }

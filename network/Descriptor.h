@@ -29,6 +29,7 @@ namespace Network
 				// protected  variables
 				//----------------------------------------------------------------------------------
 				SOCKET m_socket;
+				SOCKET m_server;
 				const int m_nPort;
 				const int m_ipVersion;
 				const int m_type;
@@ -50,6 +51,7 @@ namespace Network
 				//----------------------------------------------------------------------------------
 				// public  methods
 				//----------------------------------------------------------------------------------
+				virtual int Accept();
 				int Bind();
 				int Connect();
 				int Listen( int nQuery );

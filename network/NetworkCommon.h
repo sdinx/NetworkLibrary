@@ -60,7 +60,7 @@ template<class T, typename ...P>
 void _ErrorMessage( T type, std::string message, P...param )
 {
 		std::string name = typeid( type ).name();
-		message = "[" + name + "] {%s()=%d} " + message + "\n";
+		message = name + "::%s()#%d " + message + "\n";
 		printf( message.c_str(), std::forward<P>( param )... );
 }
 
